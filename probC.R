@@ -1,76 +1,77 @@
-# probC.R - é um programa para análise de probabilidade condicional
+# probC.R - Ã© um programa para anÃ¡lise de probabilidade condicional
 # Copyright (c) 2021 Henrique Regis Costa <henrique260293@gmail.com>
-# Copyright (c) 2021 Thaís Regis Costa <thasregiscosta@gmail.com>
-# Este arquivo é distribuido sob a licença GPLv3.
+# Copyright (c) 2021 ThaÃ­s Regis Costa <thasregiscosta@gmail.com>
+# Este arquivo Ã© distribuido sob a licenÃ§a GPLv3.
 
-#carga da base de dados e atribuição da mesma para a variável 't'(table) (formato CSV UTF-8)
-t <- read.csv("C:/Users/Henrique/Desktop/probabilidade/problema/data_set_problema.csv", header=TRUE)
+#carga da base de dados e atribuiÃ§Ã£o da mesma para a variÃ¡vel 't'(table) (formato CSV UTF-8)
+#substitua path pelo caminho relativo do seu data_set
+t <- read.csv("path", header=TRUE)
 
-#exibe no console o conteúdo da variável 't'
+#exibe no console o conteÃºdo da variÃ¡vel 't'
 t
 
-#atribui à 'a' a tabela de probabilidades oriunda da tabela de contagem (contingência) contida na variável 't'
+#atribui Ã  'a' a tabela de probabilidades oriunda da tabela de contagem (contingÃªncia) contida na variÃ¡vel 't'
 a <- prop.table(t)
-#exibe no console o conteúdo da variável 'a'
+#exibe no console o conteÃºdo da variÃ¡vel 'a'
 a
 
-#tranforma 'a' em uma matriz e atribui à variável 'b'
+#tranforma 'a' em uma matriz e atribui Ã  variÃ¡vel 'b'
 b <- as.matrix(a)
-#exibe no console o conteúdo da variável 'b'
+#exibe no console o conteÃºdo da variÃ¡vel 'b'
 b
 
-#gera tabela 'mDist' que é b com somas marginais
+#gera tabela 'mDist' que Ã© b com somas marginais
 mDist <- addmargins(b)
 
-#armazena em 'd' a tabela de probabilidades condicionais obtida a partir da tabela de probabilidades contida na variável 'a'
-# margin => soma marginal | margin = 1 condição na "dimensão 1" => X | margin = 2 condição na "dimensão 2" => Y
+#armazena em 'd' a tabela de probabilidades condicionais obtida a partir da tabela de probabilidades contida na variÃ¡vel 'a'
+# margin => soma marginal | margin = 1 condiÃ§Ã£o na "dimensÃ£o 1" => X | margin = 2 condiÃ§Ã£o na "dimensÃ£o 2" => Y
 d <- prop.table(b, margin=2)
-#exibe no console o conteúdo da variável 'd'
+#exibe no console o conteÃºdo da variÃ¡vel 'd'
 d
 
-#atribui à c (colum) o número de colunas da matriz d, l(line) o número de linhas da matriz d
+#atribui Ã  c (colum) o nÃºmero de colunas da matriz d, l(line) o nÃºmero de linhas da matriz d
 c <- as.integer(ncol(d))
 l <- as.integer(nrow(d))
-#exibe no console os conteúdos das variáveis c e l
+#exibe no console os conteÃºdos das variÃ¡veis c e l
 c
 l
 
-#iterações para geração de E e VAR
+#iteraÃ§Ãµes para geraÃ§Ã£o de E e VAR
 
-#contadores iniciados com valor 1 para realizar iterações até um n-ésimo valor desejado
+#contadores iniciados com valor 1 para realizar iteraÃ§Ãµes atÃ© um n-Ã©simo valor desejado
 i <- 1
 j <- 1
 k <- 1
 m <- 1
 
-#vetores de tamanho "c - número de colunas" para acumular resultados
+#vetores de tamanho "c - nÃºmero de colunas" para acumular resultados
 e <- 1:c
 e2 <- 1:c
 var <- 1:c
 
-#Iteração para cálculo de E e Var
+#IteraÃ§Ã£o para cÃ¡lculo de E e Var
 
-#enquanto o contador k estiver entre 1 e c - número de colunas executa as ações que estão entre as chaves do laço externo
+#enquanto o contador k estiver entre 1 e c - nÃºmero de colunas executa as aÃ§Ãµes que estÃ£o entre as chaves do laÃ§o externo
 for(k in 1:c){
   
-  #atribuição de valor 0 na posição k-ésima do vetor 'e' (objetivo de evitar "resíduos")
+  #atribuiÃ§Ã£o de valor 0 na posiÃ§Ã£o k-Ã©sima do vetor 'e' (objetivo de evitar "resÃ­duos")
   e[k] = 0
   
-  #laço da 'expectation' aplica a fórmula para cada linha e acumula um novo valor ao k-ésimo 'e' a cada iteração
+  #laÃ§o da 'expectation' aplica a fÃ³rmula para cada linha e acumula um novo valor ao k-Ã©simo 'e' a cada iteraÃ§Ã£o
   for(i in 1:l){
     e[k] = e[k] + ((i) * d[i, k])
   }
   
-  #atribuição de valor 0 na posição k-ésima do vetor 'e2' (objetivo de evitar "resíduos")
+  #atribuiÃ§Ã£o de valor 0 na posiÃ§Ã£o k-Ã©sima do vetor 'e2' (objetivo de evitar "resÃ­duos")
   e2[k] = 0
   
-  #laço do 'e^2' aplica a fórmula para cada linha e acumula um novo valor ao k-ésimo 'e2' a cada iteração
+  #laÃ§o do 'e^2' aplica a fÃ³rmula para cada linha e acumula um novo valor ao k-Ã©simo 'e2' a cada iteraÃ§Ã£o
   for(j in 1:l){
     e2[k] = e2[k] + ((j)^2 * d[j, k])
   }
 }
 
-#a partir de 'e' e 'e2', calcula Var da posição m = 1 até c - número de colunas e acumula no vetor var da posição m =1 até c 
+#a partir de 'e' e 'e2', calcula Var da posiÃ§Ã£o m = 1 atÃ© c - nÃºmero de colunas e acumula no vetor var da posiÃ§Ã£o m =1 atÃ© c 
 for(m in 1:c){
   var[m] = 0
   var[m] = e2[m] - e[m]^2
@@ -80,7 +81,7 @@ for(m in 1:c){
 e
 var
 
-#Iteração para criação dos gráficos das distribuições marginais
+#IteraÃ§Ã£o para criaÃ§Ã£o dos grÃ¡ficos das distribuiÃ§Ãµes marginais
 n <- 1
 o <- 1
 yMg <- 0
@@ -88,34 +89,34 @@ xMg <- 0
 x <- 1:c
 y <- 1:l
 
-#laço que cria vetor P(X)
+#laÃ§o que cria vetor P(X)
 for(n in 1:c){
   xMg[n] = 0
   xMg[n] = mDist[l+1,n]
 }
 
-#laço que cria vetor P(Y)
+#laÃ§o que cria vetor P(Y)
 for(o in 1:l){
   yMg[o] = 0
   yMg[o] = mDist[o,c+1]
 }
 
-#Criação de tabela com valores de x e seus respectivos P(x)
+#CriaÃ§Ã£o de tabela com valores de x e seus respectivos P(x)
 xplot <- as.table(setNames(xMg,x))
 #Exibe tabela xplot
 xplot
-#Criação de tabela com valores de y e seus respectivos P(y)
+#CriaÃ§Ã£o de tabela com valores de y e seus respectivos P(y)
 yplot <- as.table(setNames(yMg,y))
 #Exibe tabela yplot
 yplot
 
 #exibe tabela mDist (probabilidade e somas marginais)
 mDist 
-#plota gráficos das somas marginais
+#plota grÃ¡ficos das somas marginais
 barplot(xplot, ylab="Probabilidade", xlab="valores de X", col="darkblue")
 barplot(yplot, ylab="Probabilidade", xlab="valores de y", col="red")
 
-#plota gráfico da distribuição conjunta
+#plota grÃ¡fico da distribuiÃ§Ã£o conjunta
 barplot(d, beside=TRUE, col=c(1:l))
 
 
