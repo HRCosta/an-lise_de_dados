@@ -112,12 +112,16 @@ yplot
 
 #exibe tabela mDist (probabilidade e somas marginais)
 mDist 
+
 #plota gráficos das somas marginais
 barplot(xplot, ylab="Probabilidade", xlab="valores de X", col="lightblue")
-barplot(yplot, ylab="Probabilidade", xlab="valores de y", col="lightblue")
+barplot(yplot, ylab="Probabilidade", xlab="valores de Y", col="lightblue")
 
-#plota gráfico da distribuição conjunta
+#plota gráfico da distribuição conjunta (usar d como referência para os valores das barras)
 barplot(d, beside=TRUE)
+#exibe 'd' no console
+d
+
 
 
 
