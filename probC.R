@@ -86,36 +86,36 @@ n <- 1
 o <- 1
 yMg <- 0
 xMg <- 0
-x <- 1:c
-y <- 1:l
-
-#laço que cria vetor P(X)
-for(n in 1:c){
-  xMg[n] = 0
-  xMg[n] = mDist[l+1,n]
-}
+y <- 1:c
+x <- 1:l
 
 #laço que cria vetor P(Y)
+for(n in 1:c){
+  yMg[n] = 0
+  yMg[n] = mDist[l+1,n]
+}
+
+#laço que cria vetor P(X)
 for(o in 1:l){
-  yMg[o] = 0
-  yMg[o] = mDist[o,c+1]
+  xMg[o] = 0
+  xMg[o] = mDist[o,c+1]
 }
 
 #Criação de tabela com valores de x e seus respectivos P(x)
-xplot <- as.table(setNames(xMg,x))
-#Exibe tabela xplot
-xplot
-#Criação de tabela com valores de y e seus respectivos P(y)
 yplot <- as.table(setNames(yMg,y))
-#Exibe tabela yplot
+#Exibe tabela xplot
 yplot
+#Criação de tabela com valores de y e seus respectivos P(y)
+xplot <- as.table(setNames(xMg,x))
+#Exibe tabela yplot
+xplot
 
 #exibe tabela mDist (probabilidade e somas marginais)
 mDist 
 
 #plota gráficos das somas marginais
-barplot(xplot, ylab="Probabilidade", xlab="valores de X", col="lightblue")
-barplot(yplot, ylab="Probabilidade", xlab="valores de Y", col="lightblue")
+barplot(yplot, ylab="Probabilidade", xlab="valores de y", col="lightblue")
+barplot(xplot, ylab="Probabilidade", xlab="valores de x", col="lightblue")
 
 #plota gráfico da distribuição conjunta (usar d como referência para os valores das barras)
 barplot(d, beside=TRUE)
